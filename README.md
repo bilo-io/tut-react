@@ -80,3 +80,245 @@ tut-fed/                    # project root
 |`artifact/`| (generated) application package with server, to test prod deployment locally|
 |`node_modules/`| (generated) Node dependencies, 3rd party packages the webapp requires to function|
 
+# Adding React to your Webapp
+
+Fortunately, react is just a javascript library. As such, it is quite easy to add to any project that uses Node and Webpack. Basically, we need to do only 2 things: 1) install react in your webapp and 2) configure Webpack to load the files accordingly.
+
+To install react, you just need 2 dependencies:
+
+- `npm install react --save-dev`
+- `npm install react-dom --save-dev`
+
+Now what's left is to configure Webpack, to load `.js` and `.jsx` files accordingly.
+
+>**NOTE:**
+> - React uses `.jsx` syntax, which you can think of as a combination of Javascript and html
+> - when bundling the webapp the `.jsx` is transpiled into Javascript, using [Babel]()
+
+So, update your `webpack.config.js` file to look like this:
+
+```javascript
+var webpack = require('webpack');
+var path = require('path');
+var DIST = path.resolve(__dirname, 'dist/');
+var SRC = path.resolve(__dirname, 'src/');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+
+var config = {
+    devtool: 'source-map',
+    entry: {
+        // NOTE: Changed entry point to be index.js
+        path: SRC + '/index.js'
+    },
+    output: {
+        path: DIST,
+        publicPath: 'http://localhost:8080/',
+        filename: 'app.js'
+    },
+    module: {
+        rules: [
+            {   
+                // NOTE: added .jsx extension to use babel 
+                test: /\.(js|jsx)$/,
+                loader: 'babel-loader',
+                exclude: /node_modules/
+            }, {
+                test: /\.(css|scss)$/,
+                loaders: [
+                    'style-loader', 'css-loader', 'sass-loader'
+                ],
+                exclude: /node_modules/
+            }, {
+                test: /\.(png|jpe?g|gif|svg|woff|woff2|ttf|eot|ico)$/,
+                loader: 'file-loader?name=assets/[name].[ext]'
+            }
+        ]
+    },
+    plugins: [new HtmlWebpackPlugin({template: './src/index.html', filename: 'index.html', inject: 'body'})],
+    devServer: {
+        historyApiFallback: true,
+        stats: 'minimal'
+    }
+};
+
+module.exports = config;
+```
+
+Now Webpack is configured correctly. However, you still need to setup babel in order to transpile the `jsx` syntax into javascript. Firstly, download all required dependencies:
+
+- `npm install babel-core --save-dev`
+- `npm install babel-preset-react --save-dev`
+- `npm install babel-preset-es2015--save-dev`
+- `npm install babel-loader --save-dev`
+
+Lastly, you need to add a `.babelrc` file to your root, with the following contents:
+
+`.babelrc`:
+```json
+{
+  "presets" : ["es2015", "react"]
+}
+```
+
+Now React should be installed and your Webapp fully configured to use React. In the next section we look at how we can rewrite our raw webapp in React.
+
+# Reactifying your Webapp
+
+Effectively, every webapp's entry point is the `index.html`. This is no different for React. Basically, you can choose arbitrary elements to inject your react code into. In the index.html file below, the only element in the `<body>` tags is a `<div>` with an id. This is the component in which we will inject all react code.
+
+`index.html`:
+```html
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <title>React Dev</title>
+        <!--Icon-->
+        <link rel="shortcut icon" type="image/x-icon" href="./assets/favicon.ico" />
+        <!--Font-->
+        <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Quicksand" />
+    </head>
+
+    <body>
+        <!-- REACT is injected here -->
+        <div id="root" />
+    </body>
+
+</html>
+```
+
+Now, to add our React entry point in the webapp, we need to create an `index.js` file.
+
+`src/index.js`:
+```js
+import React from 'react';
+import ReactDOM from 'react-dom';
+import App from './app/app.js';
+
+ReactDOM.render(<App />, document.getElementById('root'));
+```
+
+Here you can see that the root `App` component is injected into the `<div>` which has `id="root"`, in the body of our `index.html`. However, we have not yet created our App component, which is what we'll do next.
+
+`src/app/app.js`:
+```js
+import React from 'react';
+require('../style.scss');
+require('../favicon.ico');
+
+export default class App extends React.Component {
+    render() {
+        return (
+            <div>
+                <div className="app-titlebar">
+                    <img src="./assets/favicon.ico" />
+                    <label>React Tutorial 101</label>
+                </div>
+                <div className="app-content">
+                    <p><b>Hello React Developers</b></p>
+                    <p>Now you know how to make a basic React website.</p>
+                </div>
+            </div>
+        )
+    }
+}
+```
+
+Everything should have worked just fine. You should see your webapp in the browser, if you've run `npm start`.
+
+>**NOTE:**
+>- at the very least, a React component needs a render function
+>- the html `class` attribute is called `className` in jsx, because `class` is already a reserved keyword in javascript.
+>- make sure that your paths are correct, as some things have been shuffled around
+
+# Adding React Router
+
+The React router keeps changing, as does everything with frontend libraries. This section uses `react-router@4` which (hopefully) will be supported for a while. So, let's get started by installing the dependencies:
+
+- `npm install react-router --save-dev`
+- `npm install react-router-dom  --save-dev`
+
+The next step is to wrap your root component around the router:
+
+`src/index.js`:
+```js
+import React from 'react';
+import ReactDOM from 'react-dom';
+import App from './app/app.js';
+import {BrowserRouter as Router} from 'react-router-dom';
+
+ReactDOM.render(
+    <Router>
+        <App/>
+    </Router>
+, document.getElementById('root'));
+```
+Now, we are going to define all routes (pages) in the App component, as follows:
+
+`src/app/app.js`:
+```js
+import React from 'react';
+import {Route, Switch} from 'react-router-dom';
+import Home from './pages/home';
+import NotFound from './pages/not-found';
+require('../style.scss');
+require('../favicon.ico');
+
+export default class App extends React.Component {
+    constructor(props) {
+        super(props);
+    }
+    render() {
+        return (
+            <div>
+                <div className="app-titlebar">
+                    <img src="./assets/favicon.ico" />
+                    <label>React Tutorial 101</label>
+                </div>
+                <div className="app-content">
+                    <Switch>
+                        <Route exact path="/" component={Home}/> 
+                        <Route exact path="/home" component={Home}/>
+                        <Route path="*" component={NotFound} />
+                    </Switch>
+                </div>    
+        </div>
+        )
+    }
+}
+```
+
+But before we can navigate to these pages via the browser URL, we need to create the pages:
+
+`src/app/pages/home.js`:
+```js
+import React from 'react';
+
+export default class Home extends React.Component {
+    render() {
+        return (
+            <div>
+                <h1>This is the HOME page</h1>
+            </div>
+        )
+    }
+}
+```
+
+`src/app/pages/not-found.js`:
+```js
+import React from 'react';
+
+export default class NotFound extends React.Component {
+    render() {
+        return (
+            <div>
+                <h1><b>404: NOTE Found</b></h1>
+                <h1>The page can't be found</h1>
+            </div>
+        )
+    }
+}
+```
+
+Try modifying the URL in your browser to see if the routing works.

@@ -6,8 +6,9 @@ var DIST = path.resolve(__dirname, 'dist/');
 var SRC = path.resolve(__dirname, 'src/');
 
 var config = {
+    devtool: 'source-map',
     entry: {
-        path: SRC + '/app.js'
+        path: SRC + '/index.js'
     },
     output: {
         path: DIST,
