@@ -1,5 +1,10 @@
 # Tutorial: React
 
+>Pre-requisites:
+> - NodeJS, ExpressJS, Webpack
+> - the tutorial ["https://github.com/bilo-io/tut-fed"](https://github.com/bilo-io/tut-fed) covers the above topics
+> - you can also clone the repo above, and follow along this tutorial
+
 |||
 |:--|:--|
 |![](https://raw.githubusercontent.com/bilo-io/tutorials/master/Logos/React/logo-react.png)|Have you ever wanted to start building frontend web applications, but always hit a road block at one point or another? Have you experienced the pain of constantly reloading an `index.html` page to see your changes? Is it possible that you don't even know how to get started? Perhaps you already have a basic project, but you don't know how to bundle it for production?|
@@ -190,7 +195,7 @@ Effectively, every webapp's entry point is the `index.html`. This is no differen
 Now, to add our React entry point in the webapp, we need to create an `index.js` file.
 
 `src/index.js`:
-```js
+```jsx
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './app/app.js';
@@ -201,7 +206,7 @@ ReactDOM.render(<App />, document.getElementById('root'));
 Here you can see that the root `App` component is injected into the `<div>` which has `id="root"`, in the body of our `index.html`. However, we have not yet created our App component, which is what we'll do next.
 
 `src/app/app.js`:
-```js
+```jsx
 import React from 'react';
 require('../style.scss');
 require('../favicon.ico');
@@ -241,7 +246,7 @@ The React router keeps changing, as does everything with frontend libraries. Thi
 The next step is to wrap your root component around the router:
 
 `src/index.js`:
-```js
+```jsx
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './app/app.js';
@@ -256,7 +261,7 @@ ReactDOM.render(
 Now, we are going to define all routes (pages) in the App component, as follows:
 
 `src/app/app.js`:
-```js
+```jsx
 import React from 'react';
 import {Route, Switch} from 'react-router-dom';
 import Home from './pages/home';
@@ -291,7 +296,7 @@ export default class App extends React.Component {
 But before we can navigate to these pages via the browser URL, we need to create the pages:
 
 `src/app/pages/home.js`:
-```js
+```jsx
 import React from 'react';
 
 export default class Home extends React.Component {
@@ -306,7 +311,7 @@ export default class Home extends React.Component {
 ```
 
 `src/app/pages/not-found.js`:
-```js
+```jsx
 import React from 'react';
 
 export default class NotFound extends React.Component {
@@ -314,7 +319,7 @@ export default class NotFound extends React.Component {
         return (
             <div>
                 <h1><b>404: NOTE Found</b></h1>
-                <h1>The page can't be found</h1>
+                <h2>The page can't be found</h2>
             </div>
         )
     }
