@@ -1,0 +1,74 @@
+// SASS: Variables - Colors
+$col-shadow: rgba(0,0,0,0.75);
+$col-text: #333;
+$col-background: #eee;
+$col-active: #00adee;
+
+// SASS: Variables - Dimensions
+$dim-image: 2rem;
+$dim-font: 1.5rem;
+$dim-titlebar: 4rem;
+$dim-padding: 1em;
+
+// SASS: Mixins
+@mixin drop-shadow($color) {
+    -webkit-box-shadow: 0px 6px 20px -5px $color;
+    -moz-box-shadow: 0px 6px 20px -5px $color;
+    box-shadow: 0px 6px 20px -5px $color;
+}
+
+.black-on-white {
+    color: $col-text;
+    background: $col-background;
+}
+
+body {
+    color: $col-active;
+    background: $col-text;
+    font-family: Quicksand, sans-serif;
+    padding: $dim-padding;
+}
+
+.app-titlebar {
+    // SASS: mixin usage
+    @include drop-shadow($col-shadow);
+
+    position: fixed;
+    display: flex;
+    height: $dim-titlebar;
+    width: 100vw;
+    top: 0;
+    left: 0;
+    z-index: 1;
+
+    // SASS: nested classes (img & label)
+    img {
+        width: $dim-image;
+        height: $dim-image;
+        margin-left: $dim-image;
+        margin-right: $dim-image;
+        margin-top: $dim-padding;
+    }
+    label {
+        font-size: $dim-font;
+        line-height: $dim-titlebar;
+    }
+
+    //SASS: multiple states
+    &:hover {
+        color: white;
+        cursor: pointer;
+    }
+}
+
+.app-content {
+    // SASS: inheritance
+    @extend .black-on-white;
+
+    position: fixed;
+    padding: $dim-padding;
+    height: calc(100vh - #{$dim-titlebar});
+    width: 100vw;
+    top: $dim-titlebar;
+    left: 0;
+}
