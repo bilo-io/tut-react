@@ -43,8 +43,13 @@ There are certain goals set out, which will be accomplished by the end of this a
 As such this tutorial is structured in the following logical flow:
 
 1. **Project Structure** - The a basic, manageable folder structure we will create throughout the tutorial.
-packaging.
+2. **Adding React to your Webapp** - add React and all required dependencies to your project
+3. **Reactifying your Webapp** - Refactoring your application's source to use react
+4. **Adding React Router** - Navigating between pages with `react-router`
+5. **Consuming a RESTful service** - learn how to query and process data from a REST API
+6. **Adding a 3rd party library** - add a 3rd party Javascript library to your React app
 
+After this tutorial, you should be aware of the fundamentals of React.
 
 # 1. Project Structure
 
@@ -85,7 +90,7 @@ tut-fed/                    # project root
 |`artifact/`| (generated) application package with server, to test prod deployment locally|
 |`node_modules/`| (generated) Node dependencies, 3rd party packages the webapp requires to function|
 
-# Adding React to your Webapp
+# 2. Adding React to your Webapp
 
 Fortunately, react is just a javascript library. As such, it is quite easy to add to any project that uses Node and Webpack. Basically, we need to do only 2 things: 1) install react in your webapp and 2) configure Webpack to load the files accordingly.
 
@@ -167,7 +172,7 @@ Lastly, you need to add a `.babelrc` file to your root, with the following conte
 
 Now React should be installed and your Webapp fully configured to use React. In the next section we look at how we can rewrite our raw webapp in React.
 
-# Reactifying your Webapp
+# 3. Reactifying your Webapp
 
 Effectively, every webapp's entry point is the `index.html`. This is no different for React. Basically, you can choose arbitrary elements to inject your react code into. In the index.html file below, the only element in the `<body>` tags is a `<div>` with an id. This is the component in which we will inject all react code.
 
@@ -236,7 +241,7 @@ Everything should have worked just fine. You should see your webapp in the brows
 >- the html `class` attribute is called `className` in jsx, because `class` is already a reserved keyword in javascript.
 >- make sure that your paths are correct, as some things have been shuffled around
 
-# Adding React Router
+# 4. Adding React Router
 
 The React router keeps changing, as does everything with frontend libraries. This section uses `react-router@4` which (hopefully) will be supported for a while. So, let's get started by installing the dependencies:
 
