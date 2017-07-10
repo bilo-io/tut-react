@@ -220,9 +220,9 @@ export default class App extends React.Component {
     render() {
         return (
             <div>
-                <div className="app-titlebar">
+                <div className="app-navbar">
                     <img src="./assets/favicon.ico" />
-                    <label>React Tutorial 101</label>
+                    <label>React 101</label>
                 </div>
                 <div className="app-content">
                     <p><b>Hello React Developers</b></p>
@@ -234,16 +234,108 @@ export default class App extends React.Component {
 }
 ```
 
-Everything should have worked just fine. You should see your webapp in the browser, if you've run `npm start`.
+We can enhance this further, by making the navbar a component. To accomplish this, create a new file called `navbar.js` in the components folder, as follows:
+
+`src/app/components/navbar.js`:
+```js
+import React from 'react';
+
+const Navbar = (props) => {
+    return (
+        <div className="app-navbar">
+            <img src="./assets/favicon.ico" />
+            <label>{props.appTitle}</label>
+        </div>
+    )
+}
+
+export default Navbar;
+```
+
+Import the `Navbar` component into `app.js`, and update the render function of `app.js` as follows:
+
+`src/app/app.js`:
+```js
+import Navbar from './components/navbar';
+
+// ...
+export default class App extends React.Component {
+    render() {
+        return (
+            <div>
+                {/* new Navbar component */}
+                <Navbar appTitle="React 101" />
+
+                <div className="app-content">
+                    <p><b>Hello React Developers</b></p>
+                    <p>Now you know how to make a basic React website.</p>
+                </div>
+            </div>
+        )
+    }
+}
+```
+
+Everything should have worked just fine. You should see your webapp in the browser, if you've run `npm start`, and you are on [http://localhost:8080](http://localhost:8080) in your browser.
 
 >**NOTE:**
 >- at the very least, a React component needs a render function
->- the html `class` attribute is called `className` in jsx, because `class` is already a reserved keyword in javascript.
+>- the html `class` attribute is called `className` in JSX, because `class` is already a reserved keyword in Javascript.
 >- make sure that your paths are correct, as some things have been shuffled around
 
 # 4. Adding React Router
 
-The React router keeps changing, as does everything with frontend libraries. This section uses `react-router@4` which (hopefully) will be supported for a while. So, let's get started by installing the dependencies:
+The whole point of a router is to be able to navigate to various pages of a webapplication, using the browser's URL bar. Before we create any sort of router though, let us to create some pages first. The three pages we'll create are 1) a **Home** page, 2) an **About** page and 3) a **Not-Found** page:
+
+`src/app/pages/home.js`:
+```jsx
+import React from 'react';
+
+export default class Home extends React.Component {
+    render() {
+        return (
+            <div>
+                <h1>This is the HOME page</h1>
+            </div>
+        )
+    }
+}
+```
+
+`src/app/pages/about.js`:
+```jsx
+import React from 'react';
+
+export default class Home extends React.Component {
+    render() {
+        return (
+            <div>
+                <h1>About</h1>
+                <p>This is the about page of the React starter tutorial</p>
+                <p>Bilo Lwabona</p>
+                <p>July 2017</p>
+            </div>
+        )
+    }
+}
+```
+`src/app/pages/not-found.js`:
+```jsx
+import React from 'react';
+
+export default class NotFound extends React.Component {
+    render() {
+        return (
+            <div>
+                <h1><b>404: NOT Found</b></h1>
+                <h2>The page can't be found</h2>
+            </div>
+        )
+    }
+}
+```
+
+Now that the pages are setup, we can proceed with adding a router. The React router keeps changing, as does everything with frontend libraries. This section uses `react-router@4` which (hopefully) will be supported for a while. So, let's get started by installing the dependencies:
 
 - `npm install react-router --save-dev`
 - `npm install react-router-dom  --save-dev`
@@ -270,6 +362,7 @@ Now, we are going to define all routes (pages) in the App component, as follows:
 import React from 'react';
 import {Route, Switch} from 'react-router-dom';
 import Home from './pages/home';
+import About from './pages/about';
 import NotFound from './pages/not-found';
 require('../style.scss');
 require('../favicon.ico');
@@ -281,50 +374,16 @@ export default class App extends React.Component {
     render() {
         return (
             <div>
-                <div className="app-titlebar">
-                    <img src="./assets/favicon.ico" />
-                    <label>React Tutorial 101</label>
-                </div>
+                <Navbar appTitle="React 101" />
+
                 <div className="app-content">
                     <Switch>
                         <Route exact path="/" component={Home}/> 
                         <Route exact path="/home" component={Home}/>
+                        <Route exact path="/about" component={About}/>
                         <Route path="*" component={NotFound} />
                     </Switch>
                 </div>    
-        </div>
-        )
-    }
-}
-```
-
-But before we can navigate to these pages via the browser URL, we need to create the pages:
-
-`src/app/pages/home.js`:
-```jsx
-import React from 'react';
-
-export default class Home extends React.Component {
-    render() {
-        return (
-            <div>
-                <h1>This is the HOME page</h1>
-            </div>
-        )
-    }
-}
-```
-
-`src/app/pages/not-found.js`:
-```jsx
-import React from 'react';
-
-export default class NotFound extends React.Component {
-    render() {
-        return (
-            <div>
-                <h1><b>404: NOT Found</b></h1>
-                <h2>The page can't be found</h2>
             </div>
         )
     }
@@ -332,3 +391,34 @@ export default class NotFound extends React.Component {
 ```
 
 Try modifying the URL in your browser to see if the routing works.
+
+>**NOTE:** try clicking on any of the links below (provided your webapp is running)
+> - [http://localhost:8080/home](http://localhost:8080/home)
+> - [http://localhost:8080/about](http://localhost:8080/about)
+> - [http://localhost:8080/not-a-route](http://localhost:8080/not-a-route)
+
+# 5. Consuming a RESTful API
+
+Now that we have a basic webapp, let's add some application logic. One common thing that most (if not all) webapps do is connect to some sort of cloud service (specifically referring to REST APIs here). 
+
+In this section we will do the same, by consuming Google's Geocoding API open endpoint. Below you'll find an example for searching `italy` using this API.
+
+ >Example: [https://maps.googleapis.com/maps/api/geocode/json?address=street](https://maps.googleapis.com/maps/api/geocode/json?address=street)
+
+  # Creating the Search Component
+
+ First, we'll create a new component (`search.js`) that connects to this Google endpoint. What we aim to do is create a way to search this endpoint with the use of an `<input />` element, where each keypress triggers a new search. 
+ 
+ The first thing we need is a way with which to connect to rest API's. There are various services out there, and which one you use is up to you (e.g.: [`fetch`](https://developer.mozilla.org/en/docs/Web/API/Fetch_API), ).
+
+ We'll be using the Promise-based [`axios`](https://www.npmjs.com/package/axios)
+
+ `npm install axios --save-dev`
+ 
+ So, without further ado, let's begin.
+
+ `src/components/search.js`
+
+```js
+
+```
