@@ -1,5 +1,6 @@
 import React from 'react';
 import Search from '../components/search';
+import Map from '../components/map';
 import axios from 'axios';
 
 export default class Home extends React.Component {
@@ -19,6 +20,7 @@ export default class Home extends React.Component {
                             {
                                 this.state && this.state.response ?
                                     this.state.response.results.map((result, idx) => {
+                                        result.address_components = [];
                                         return <li key={idx} onClick={(e) => {
                                             this.setState(Object.assign({}, this.state, {
                                                 googleResult: result,
@@ -36,8 +38,8 @@ export default class Home extends React.Component {
                             : null
                     }
                 </div>
-                <div className="panel" style={{ backgroundColor: '#333' }}>
-                    Hello
+                <div className="panel" style={{ backgroundColor: '#1e1e1e', color: 'white'}}>
+                    <Map />
                 </div>
             </div>
         )
