@@ -1,0 +1,70 @@
+image: node:6
+
+cache:
+  paths: 
+    - node_modules/
+    - dist/
+    
+stages:
+  - status
+  - clean
+  - setup
+  - test
+  - build
+  - artifact
+
+build_server_status:
+  stage: status
+  script:
+    - ls
+    - node -v
+    - npm -v
+
+clean_node_modules:
+  stage: clean
+  script:
+    - rm -rf node_modules
+  only: 
+    - dev
+
+clean_build_directories:
+  stage: clean
+  script:
+    - rm -rf dist
+    - rm -rf artifact
+
+install_global_dependencies:
+  stage: setup
+  script:
+    - npm install -g webpack
+  only: 
+    - dev
+    
+install_dependencies:
+  stage: setup
+  script:
+    - npm install
+
+test_webapp:
+  stage: test
+  script: 
+    - echo "TODO unit & integration testing"
+
+create_dist:
+  stage: build
+  script:
+      - npm run build
+
+build_artifact:
+  stage: artifact
+  script:
+      - mkdir artifact
+      - mv dist/ ./artifact
+      - cp server.js ./artifact
+      - cp package.json ./artifact
+      - cd ./artifact
+      - npm install --production
+      - cd ../
+  cache:
+    paths: 
+      - artifact/
