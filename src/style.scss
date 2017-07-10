@@ -64,9 +64,7 @@ body {
 .app-content {
     // SASS: inheritance
     @extend .black-on-white;
-
     position: fixed;
-    padding: $dim-padding;
     height: calc(100vh - #{$dim-navbar});
     width: 100vw;
     top: $dim-navbar;
@@ -74,15 +72,27 @@ body {
 }
 
 input {
-    border: 0;
-    border-bottom: 1px solid $col-text;
+    width: calc(100% - 3rem);
     height: 2rem;
     line-height: 2rem;
-    width: calc(100% - 3rem);
+    margin: {
+        top: 1em;
+        left: 1em;
+        right: 1em;
+        bottom: 0;
+    }
     padding: {
         left: .75rem;
         right: .75rem;
-    } 
+    }
+    
+    border: 0;
+    border-bottom: 1px solid darkgrey;
+    background-color: rgba(lightgrey, 0.5);
+    outline: none;
+    &:focus {
+        outline: none;
+    }
 }
 
 .panel-container {
@@ -92,11 +102,15 @@ input {
     .panel {
         position: relative;
         width: 50%;
-        height: calc(100vh - 5rem);
+        height: calc(100vh - 4rem);
     }
 }
 
 .results {
+    padding: {
+        left: 1em;
+        right: 1em;
+    }
     ul {
         // position: absolute;
         list-style: none;
@@ -119,7 +133,7 @@ input {
         $dim-height-item: 3rem;
         $dim-padding: 1rem;
         $dim-border: 1px;
-        
+
         li {
             position: relative;
             width: 100%;

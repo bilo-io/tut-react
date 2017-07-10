@@ -12,24 +12,31 @@ export default class Home extends React.Component {
         return (
             <div className="panel-container">
                 <div className="panel">
-                    <Search searchGoogle={this.searchGoogle} />
+                    <Search search={this.searchGoogle} />
                     <br />
                     <div className="results">
-                        {/*<h4>Results:</h4>*/}
                         <ul>
                             {
                                 this.state && this.state.response ?
-                                    this.state.response.results.map((result) => {
-                                        return <li onClick={(e) => {
-                                            console.log(result.formatted_address);
+                                    this.state.response.results.map((result, idx) => {
+                                        return <li key={idx} onClick={(e) => {
+                                            this.setState(Object.assign({}, this.state, {
+                                                googleResult: result,
+                                                response: undefined
+                                            }))
                                         }}>{result.formatted_address}</li>
                                     })
                                     : null
                             }
                         </ul>
                     </div>
+                    {
+                        this.state && this.state.googleResult ?
+                            <textarea style={{padding: '1rem', width: 'calc(100% - 2rem)', height: '88%'}} onChange={ () => {}} value={JSON.stringify(this.state.googleResult, false, 2)}></textarea>
+                            : null
+                    }
                 </div>
-                <div className="panel" style={{ backgroundColor: 'red' }}>
+                <div className="panel" style={{ backgroundColor: '#333' }}>
                     Hello
                 </div>
             </div>
