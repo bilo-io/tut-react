@@ -431,7 +431,11 @@ export default class Search extends React.Component {
     render() {
         return (
             <div>
-                <input type="text" placeholder="Search ..." defaultValue={this.state.searchTerm} onChange={ (e) => {
+                <input 
+                type="text" 
+                placeholder="Search ..." 
+                defaultValue={this.state.searchTerm}
+                onChange={ (e) => {
                     this.props.search(e.target.value);
                 }} />
             </div>
@@ -439,3 +443,10 @@ export default class Search extends React.Component {
     }
 }
 ```
+
+There are some key points to note here. 
+
+- Firstly, we use React's component `state` to persist data. While this may not be the most scalable & useful approach, it certainly works for small projects. 
+>**NOTE:** Larger projects may use something like `flux` or `redux` to manage the application state.
+- when a key
+

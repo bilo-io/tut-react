@@ -5,10 +5,6 @@ var map = {};
 // Layers
 var pointLayer = [];
 var lineLayer = [];
-// Pins
-var pinStart = {};
-var pinEnd = {};
-var pinStop = {};
 
 export default class Map extends React.Component {
     constructor(props) {
@@ -25,7 +21,6 @@ export default class Map extends React.Component {
         )
     }
     initMap() {
-        // this.initMarkers();
         let style = 'streets';
         let token = 'pk.eyJ1IjoiYmlsb2x3YWJvbmEiLCJhIjoiY2l5eWN5Z2EwMDAwaDMzcXhpczllYzRtdiJ9.rfFcy4B00uukeTntIJLeGg';
         let tileLayer = L.tileLayer(`https://api.tiles.mapbox.com/v4/mapbox.${style}/{z}/{x}/{y}.png?access_token=${token}`, {

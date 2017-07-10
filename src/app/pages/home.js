@@ -14,7 +14,6 @@ export default class Home extends React.Component {
             <div className="panel-container">
                 <div className="panel">
                     <Search search={this.searchGoogle} />
-                    <br />
                     <div className="results">
                         <ul>
                             {
@@ -34,7 +33,7 @@ export default class Home extends React.Component {
                     </div>
                     {
                         this.state && this.state.googleResult ?
-                            <textarea style={{padding: '1rem', width: 'calc(100% - 2rem)', height: '88%'}} onChange={ () => {}} value={JSON.stringify(this.state.googleResult, false, 2)}></textarea>
+                            <textarea style={{padding: '1rem', width: 'calc(100% - 2rem)', height: 'calc(100% - 6rem)'}} onChange={ () => {}} value={JSON.stringify(this.state.googleResult, false, 2)}></textarea>
                             : null
                     }
                 </div>
