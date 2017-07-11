@@ -3,9 +3,11 @@ import ol from 'openlayers';
 const OL = require('openlayers');
 require('./map.scss');
 
+var scaleLineControl =new ol.control.ScaleLine();
 export default class OLMap extends React.Component {
     componentDidMount() {
         this.initOL();
+        this.updateScaleLine();
     }
     initOL() {
         let overlays = new ol.layer.Group({
@@ -30,6 +32,9 @@ export default class OLMap extends React.Component {
                 minZoom: 0,
                 maxZoom: 9
             }),
+            controls: ol.control.defaults().extend([
+                scaleLineControl
+            ]),
             // controls: ol.control.defaults().extend([
             //     new ol.control.LayerSwitcher()
             // ]),
@@ -42,5 +47,8 @@ export default class OLMap extends React.Component {
                 <div id="ol-map" className="map-component" />
             </div >
         )
+    }
+    updateScaleLine() {
+        scaleLineControl.setUnits('metric');
     }
 }
