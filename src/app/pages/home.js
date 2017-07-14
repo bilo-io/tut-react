@@ -1,6 +1,7 @@
 import React from 'react';
 import Search from '../components/search';
 import Map from '../components/map';
+import OLMap from '../components/ol-map';
 import axios from 'axios';
 
 export default class Home extends React.Component {
@@ -38,7 +39,8 @@ export default class Home extends React.Component {
                     }
                 </div>
                 <div className="panel" style={{ backgroundColor: '#1e1e1e', color: 'white'}}>
-                    <Map />
+                    {/*<Map />*/}
+                    <OLMap />
                 </div>
             </div>
         )
