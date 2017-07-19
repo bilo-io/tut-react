@@ -2,6 +2,7 @@ var webpack = require('webpack');
 var path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 var BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+var Visualizer = require('webpack-visualizer-plugin');
 
 var DIST = path.resolve(__dirname, 'dist/');
 var SRC = path.resolve(__dirname, 'src/');
@@ -35,7 +36,8 @@ var config = {
         ]
     },
     plugins: [
-        new BundleAnalyzerPlugin(),
+        // new BundleAnalyzerPlugin(),
+        new Visualizer({filename: './stats.html'}),
         new HtmlWebpackPlugin({ template: './src/index.html', filename: 'index.html', inject: 'body' })
     ],
     devServer: {
