@@ -1,6 +1,7 @@
 var webpack = require('webpack');
 var path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+var BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 var DIST = path.resolve(__dirname, 'dist/');
 var SRC = path.resolve(__dirname, 'src/');
@@ -33,7 +34,10 @@ var config = {
             }
         ]
     },
-    plugins: [new HtmlWebpackPlugin({template: './src/index.html', filename: 'index.html', inject: 'body'})],
+    plugins: [
+        new BundleAnalyzerPlugin(),
+        new HtmlWebpackPlugin({ template: './src/index.html', filename: 'index.html', inject: 'body' })
+    ],
     devServer: {
         historyApiFallback: true,
         stats: 'minimal'
