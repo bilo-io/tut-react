@@ -1,7 +1,7 @@
 {
   "name": "tut-react",
-  "version": "1.0.0",
-  "description": "a starter tutorial and source for frontend dev with node, express and webpack",
+  "version": "0.0.1",
+  "description": "a starter tutorial and source for React dev with Node, Express and Webpack",
   "main": "server.js",
   "directories": {
     "doc": "docs"
