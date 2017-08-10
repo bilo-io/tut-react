@@ -1,5 +1,5 @@
 {
-  "name": "tut-fed",
+  "name": "tut-react",
   "version": "1.0.0",
   "description": "a starter tutorial and source for frontend dev with node, express and webpack",
   "main": "server.js",
