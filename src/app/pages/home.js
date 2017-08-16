@@ -1,8 +1,4 @@
 import React from 'react';
-import Search from '../components/search';
-import Map from '../components/map';
-import OLMap from '../components/ol-map';
-import axios from 'axios';
 
 export default class Home extends React.Component {
     componentWillMount() {
