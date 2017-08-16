@@ -1,5 +1,5 @@
 import React from 'react';
-import {Route, Switch} from 'react-router-dom';
+import {Route, Redirect, Switch} from 'react-router-dom';
 import Home from './pages/home';
 import About from './pages/about';
 import NotFound from './pages/not-found';
@@ -15,7 +15,7 @@ export default class App extends React.Component {
 
                 <div className="app-content">
                     <Switch>
-                        <Route exact path="/" component={Home}/> 
+                        {/* <Redirect from="/" to="/home" /> */}
                         <Route exact path="/home" component={Home}/>
                         <Route exact path="/about" component={About}/>
                         <Route path="*" component={NotFound} />
