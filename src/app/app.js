@@ -11,17 +11,16 @@ export default class App extends React.Component {
     render() {
         return (
             <div>
-                <Navbar appTitle="React 101" />
+                <Navbar appTitle="React Dev"/>
 
                 <div className="app-content">
                     <Switch>
-                        <Route exact path="/" component={Home}/> 
                         <Route exact path="/home" component={Home}/>
                         <Route exact path="/about" component={About}/>
-                        <Route path="*" component={NotFound} />
+                        <Route path="*" component={NotFound}/>
                     </Switch>
-                </div>    
-        </div>
+                </div>
+            </div>
         )
     }
 }

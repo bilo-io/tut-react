@@ -1,6 +1,7 @@
 var webpack = require('webpack');
 var path = require('path');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
+var HtmlWebpackPlugin = require('html-webpack-plugin');
+var CopyWebpackPlugin = require('copy-webpack-plugin');
 var BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 var Visualizer = require('webpack-visualizer-plugin');
 
@@ -38,7 +39,13 @@ var config = {
     plugins: [
         // new BundleAnalyzerPlugin(),
         new Visualizer({filename: './stats.html'}),
-        new HtmlWebpackPlugin({ template: './src/index.html', filename: 'index.html', inject: 'body' })
+        new HtmlWebpackPlugin({template: './src/index.html', filename: 'index.html', inject: 'body'}),
+        new CopyWebpackPlugin([
+            {
+                from: './src/style.scss',
+                to: './'
+            }
+        ])
     ],
     devServer: {
         historyApiFallback: true,

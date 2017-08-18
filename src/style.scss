@@ -9,7 +9,7 @@ $dim-image: 2rem;
 $dim-font: 1.5rem;
 $dim-navbar: 4rem;
 $dim-padding: 1em;
-
+$input-height: 2em;
 // SASS: Mixins
 @mixin drop-shadow($color) {
     -webkit-box-shadow: 0px 6px 20px -5px $color;
@@ -64,94 +64,35 @@ body {
 .app-content {
     // SASS: inheritance
     @extend .black-on-white;
+
     position: fixed;
+    padding: $dim-padding;
     height: calc(100vh - #{$dim-navbar});
     width: 100vw;
     top: $dim-navbar;
     left: 0;
 }
 
+button {
+    height: $input-height;
+    background-color: $col-active;
+    color: white;
+    border: 1px solid $col-active;
+    margin-right: 1em;
+
+    &:hover {
+        background-color: transparent;
+        color: $col-active;
+        border: 1px solid $col-active;
+    }
+}
+
 input {
-    width: calc(100% - 3rem);
-    height: 2rem;
-    line-height: 2rem;
-    margin: {
-        top: 1em;
-        left: 1em;
-        right: 1em;
-        bottom: 1em;
-    }
-    padding: {
-        left: .75rem;
-        right: .75rem;
-    }
-    
-    border: 0;
-    border-bottom: 1px solid darkgrey;
-    background-color: rgba(lightgrey, 0.5);
-    outline: none;
-    &:focus {
-        outline: none;
-    }
-}
-
-.panel-container {
-    display: flex;
-    flex-direction: row;
-    height: calc(100vh-8rem);
-    .panel {
-        position: relative;
-        width: 50%;
-        height: calc(100vh - 4rem);
-    }
-}
-
-.results {
+    line-height: $input-height;
+    height: $input-height;
+    margin-right: 1em;
     padding: {
         left: 1em;
         right: 1em;
-    }
-    ul {
-        // position: absolute;
-        list-style: none;
-        width: 100%;
-        font-size: 1rem;
-        max-height: 80vh;
-        overflow-y: scroll;
-        overflow-x: hidden;
-        -webkit-margin-after: 0;
-        -webkit-margin-before: 0;
-        -webkit-margin-start: 0;
-        -webkit-margin-end: 0;
-        -webkit-padding-start: 0;
-        -webkit-padding-end: 0;
-        -webkit-box-shadow: 0px 5px 15px 0px rgba(50, 50, 50, 0.75);
-        -moz-box-shadow: 0px 5px 15px 0px rgba(50, 50, 50, 0.75);
-        box-shadow: 0px 5px 15px 0px rgba(50, 50, 50, 0.75);
-        z-index: 1;
-
-        $dim-height-item: 3rem;
-        $dim-padding: 1rem;
-        $dim-border: 1px;
-
-        li {
-            position: relative;
-            width: 100%;
-            height: $dim-height-item;
-            line-height: $dim-height-item;
-            color: black;
-            background: white;
-            width: 100%;
-            text-overflow: ellipsis;
-            overflow-x: hidden;
-            white-space: nowrap;
-            padding-left: $dim-padding;
-            padding-right: $dim-padding;
-            border-bottom: $dim-border solid lighten(lightgrey, 10%);
-            &:hover {
-                cursor: pointer;
-                background-color: lighten(lightgrey, 10%);
-            }
-        }
     }
 }

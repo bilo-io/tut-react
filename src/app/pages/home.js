@@ -1,68 +1,36 @@
 import React from 'react';
-import Search from '../components/search';
-import Map from '../components/map';
-import OLMap from '../components/ol-map';
-import axios from 'axios';
 
 export default class Home extends React.Component {
-    constructor(props) {
-        super(props);
-        this.googleUrl = `https://maps.googleapis.com/maps/api/geocode/json?`;
-        this.searchGoogle = this.searchGoogle.bind(this);
+    componentWillMount() {
+        this.setState(
+            { name: 'whoever you are' })
     }
     render() {
-        return (
-            <div className="panel-container">
-                <div className="panel">
-                    <Search search={this.searchGoogle} />
-                    <div className="results">
-                        <ul>
-                            {
-                                this.state && this.state.response ?
-                                    this.state.response.results.map((result, idx) => {
-                                        result.address_components = [];
-                                        return <li key={idx} onClick={(e) => {
-                                            this.setState(Object.assign({}, this.state, {
-                                                googleResult: result,
-                                                response: undefined
-                                            }))
-                                        }}>{result.formatted_address}</li>
-                                    })
-                                    : null
-                            }
-                        </ul>
-                    </div>
-                    {
-                        this.state && this.state.googleResult ?
-                            <textarea style={{padding: '1rem', width: 'calc(100% - 2rem)', height: 'calc(100% - 6rem)'}} onChange={ () => {}} value={JSON.stringify(this.state.googleResult, false, 2)}></textarea>
-                            : null
-                    }
-                </div>
-                <div className="panel" style={{ backgroundColor: '#1e1e1e', color: 'white'}}>
-                    {/*<Map />*/}
-                    <OLMap />
-                </div>
-            </div>
-        )
-    }
-    searchGoogle(query) {
-        if (query.length == 0) {
-            return;
-        }
-        let url = `${this.googleUrl}address=${query}`;
-        console.log({ url });
-        axios.request({
-            method: 'GET',
-            url: url
-        }).then((response) => {
+        return this.state ? (
+                <div>
+                    <p>
+                        <b>Hello React Devs</b>
+                    </p>
 
-            this.setState(Object.assign({}, this.state, {
-                response: response.data
-            }), () => {
-                console.log('Response:', this.state.response);
-            })
-        }).catch((error) => {
-            console.log({ error });
-        })
+                    <p>Now you know how to make a basic React webapp.</p>
+
+                    <p>
+                        <input
+                            id="name"
+                            type="text"
+                            placeholder="enter your name"
+                            value={this.state.name}
+                            onChange={(e) => {
+                            this.setState({
+                                ...this.state,
+                                name: e.target.value
+                            }, console.log(this.state));
+                        }}/>
+                        <button id="hello" onClick={() => alert('Hello ' + this.state.name)}>Say Hello</button>
+                        <button id="adios" onClick={() => alert('Adios ' + this.state.name)}>Say Adios</button>
+                    </p>
+                </div>
+            )
+            : null;
     }
 }
